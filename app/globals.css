@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Benzin';
+  src: url('/fonts/Benzin-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --primary-50: #e6faf8;
+    --primary-100: #ccf5f1;
+    --primary-200: #99ebe3;
+    --primary-300: #66e0d5;
+    --primary-400: #33d6c7;
+    --primary-500: #00ccb9;
+    --primary-600: #00a394;
+    --primary-700: #007a6f;
+    --primary-800: #00524a;
+    --primary-900: #002925;
+  }
+  
+  body {
+    @apply text-gray-900 antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Skip to content link for accessibility */
+  .skip-link {
+    @apply absolute left-0 top-0 z-50 -translate-y-full rounded-br-lg bg-primary-600 px-4 py-2 text-white transition-transform focus:translate-y-0;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-primary-600 hover:bg-gray-50 focus:ring-primary-500;
+  }
+
+  .card {
+    @apply rounded-xl bg-white p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl;
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, var(--primary-400) 0%, var(--primary-600) 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 50%, var(--primary-800) 100%);
+  }
+}
+
+@layer utilities {
+  /* Custom focus styles for better accessibility */
+  .focus-visible-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2;
+  }
+
+  /* Decorative shapes */
+  .shape-blob {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+}
