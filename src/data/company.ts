@@ -6,9 +6,9 @@ export const company = {
     phone: '+33 1 23 45 67 89',
     email: 'contact@wimassur.fr',
     address: {
-      street: '123 Avenue de la République',
-      city: 'Paris',
-      postalCode: '75011',
+      street: '11 Rue Robert Corvisier',
+      city: 'Saint-Mard',
+      postalCode: '77230',
       country: 'France',
     },
   },
@@ -18,7 +18,8 @@ export const company = {
     linkedin: 'https://linkedin.com/company/wimassur',
   },
   legal: {
-    siren: '123 456 789',
+    siren: '991997214',
+    siret: '99199721400010',
     orias: '12 345 678',
     rcPro: 'Contrat n° 123456789',
   },

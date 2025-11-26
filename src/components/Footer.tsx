@@ -247,13 +247,13 @@ export function Footer() {
           <div className="flex flex-col items-center justify-between gap-4 text-sm text-gray-400 md:flex-row">
             <p className="font-montserrat">© {currentYear} {company.name}. Tous droits réservés.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-primary-400 transition-colors font-montserrat">
+              <a href="/mentions-legales" className="hover:text-primary-400 transition-colors font-montserrat">
                 Mentions légales
               </a>
-              <a href="#" className="hover:text-primary-400 transition-colors font-montserrat">
+              <a href="/politique-confidentialite" className="hover:text-primary-400 transition-colors font-montserrat">
                 Politique de confidentialité
               </a>
-              <a href="#" className="hover:text-primary-400 transition-colors font-montserrat">
+              <a href="/cgu" className="hover:text-primary-400 transition-colors font-montserrat">
                 CGU
               </a>
             </div>

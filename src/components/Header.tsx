@@ -71,14 +71,10 @@ export function Header() {
         <nav className="flex h-full items-center justify-between">
           {/* Logo */}
           <a
-            href="#"
+            href="/"
             className={`font-kanit font-bold transition-all duration-300 ${
               isScrolled ? 'text-2xl text-primary-600' : 'text-3xl text-white drop-shadow-lg'
             }`}
-            onClick={(e) => {
-              e.preventDefault()
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
           >
             {company.name}
           </a>
