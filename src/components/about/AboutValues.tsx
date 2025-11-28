@@ -47,63 +47,64 @@ const values = [
 
 export function AboutValues() {
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+    <section className="relative py-12 sm:py-16 lg:py-20 overflow-hidden bg-gradient-to-br from-gray-50 to-white">
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-primary-100/20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-secondary-100/20 blur-3xl" />
+        <div className="absolute right-0 top-0 h-48 w-48 sm:h-64 sm:w-64 lg:h-96 lg:w-96 rounded-full bg-primary-100/20 blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-48 w-48 sm:h-64 sm:w-64 lg:h-96 lg:w-96 rounded-full bg-secondary-100/20 blur-3xl" />
       </div>
 
-      <div className="container relative">
-        <div className="mx-auto max-w-3xl text-center mb-16">
-          <h2 className="mb-4 text-4xl font-bold text-gray-900 font-benzin">
+      <div className="container relative px-4">
+        <div className="mx-auto max-w-3xl text-center mb-10 sm:mb-12 lg:mb-16">
+          <h2 className="mb-3 sm:mb-4 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 font-benzin">
             Nos <span className="text-primary-600">valeurs</span>
           </h2>
-          <p className="text-lg text-gray-600 font-montserrat">
+          <p className="text-base sm:text-lg text-gray-600 font-montserrat px-4 sm:px-0">
             Les principes qui guident chacune de nos actions et décisions
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((value, index) => (
             <div
               key={value.id}
               className="group relative animate-fade-in opacity-0 [animation-fill-mode:forwards]"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+              <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-white p-6 sm:p-8 shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 sm:hover:-translate-y-2">
                 {/* Background gradient on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`} />
                 
                 {/* Icon */}
-                <div className={`mb-6 inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br ${value.gradient} text-4xl shadow-lg transition-transform duration-300 group-hover:scale-110`}>
+                <div className={`mb-4 sm:mb-6 inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br ${value.gradient} text-3xl sm:text-4xl shadow-lg transition-transform duration-300 group-hover:scale-105 sm:group-hover:scale-110`}>
                   <span className="animate-pulse">{value.icon}</span>
                 </div>
 
                 {/* Content */}
-                <h3 className="mb-3 text-2xl font-bold text-gray-900 font-benzin">
+                <h3 className="mb-2 sm:mb-3 text-xl sm:text-2xl font-bold text-gray-900 font-benzin">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 font-montserrat leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-600 font-montserrat leading-relaxed">
                   {value.description}
                 </p>
 
                 {/* Decorative element */}
-                <div className={`absolute -bottom-2 -right-2 h-24 w-24 rounded-full bg-gradient-to-br ${value.gradient} opacity-10 blur-2xl transition-transform duration-300 group-hover:scale-150`} />
+                <div className={`absolute -bottom-2 -right-2 h-16 w-16 sm:h-20 sm:w-20 lg:h-24 lg:w-24 rounded-full bg-gradient-to-br ${value.gradient} opacity-10 blur-xl sm:blur-2xl transition-transform duration-300 group-hover:scale-125 sm:group-hover:scale-150`} />
               </div>
             </div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center">
+        <div className="mt-12 sm:mt-14 lg:mt-16 text-center px-4">
           <a
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-600 to-primary-700 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105"
           >
-            Découvrez comment nous pouvons vous aider
+            <span className="hidden sm:inline">Découvrez comment nous pouvons vous aider</span>
+            <span className="sm:hidden">Découvrez nos services</span>
             <svg
-              className="h-5 w-5 transition-transform group-hover:translate-x-1"
+              className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

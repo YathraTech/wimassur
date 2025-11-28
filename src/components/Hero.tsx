@@ -18,86 +18,104 @@ export function Hero() {
     setIsSubmitting(true)
     trackEvent('Hero Email Capture', { source: 'hero' })
 
-    // TODO: Implement actual email capture API
-    console.log('Lead captured:', email)
+    try {
+      const response = await fetch('/api/capture-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          source: 'hero',
+        }),
+      })
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    setIsSubmitting(false)
-    setShowSuccess(true)
-    setEmail('')
-
-    // Reset success message after 5 seconds
-    setTimeout(() => {
-      setShowSuccess(false)
-    }, 5000)
+      const result = await response.json()
+      
+      if (result.success) {
+        setShowSuccess(true)
+        setEmail('')
+        setTimeout(() => {
+          setShowSuccess(false)
+        }, 5000)
+      }
+    } catch (error) {
+      console.error('Erreur lors de la capture du lead:', error)
+      // Afficher quand même le message de succès pour ne pas bloquer l'utilisateur
+      setShowSuccess(true)
+      setEmail('')
+      setTimeout(() => {
+        setShowSuccess(false)
+      }, 5000)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800">
       {/* Background decorative shapes */}
       <div className="absolute inset-0">
-        <div className="absolute -right-20 -top-20 h-96 w-96 animate-breathe rounded-full bg-primary-500/20 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 h-96 w-96 animate-breathe-slow rounded-full bg-primary-400/20 blur-3xl" />
+        <div className="absolute -right-10 -top-10 h-48 w-48 sm:-right-20 sm:-top-20 sm:h-96 sm:w-96 animate-breathe rounded-full bg-primary-500/20 blur-3xl" />
+        <div className="absolute -bottom-10 -left-10 h-48 w-48 sm:-bottom-20 sm:-left-20 sm:h-96 sm:w-96 animate-breathe-slow rounded-full bg-primary-400/20 blur-3xl" />
       </div>
 
       {/* Floating Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large orbs */}
-        <div className="absolute left-[10%] top-[20%] h-64 w-64 animate-float-slow">
+        {/* Large orbs - smaller on mobile */}
+        <div className="absolute left-[10%] top-[20%] h-32 w-32 sm:h-48 sm:w-48 md:h-64 md:w-64 animate-float-slow">
           <div className="h-full w-full rounded-full bg-gradient-to-br from-secondary-400/20 to-transparent blur-3xl" />
         </div>
-        <div className="absolute right-[5%] top-[60%] h-48 w-48 animate-float-delayed">
+        <div className="absolute right-[5%] top-[60%] h-24 w-24 sm:h-36 sm:w-36 md:h-48 md:w-48 animate-float-delayed">
           <div className="h-full w-full rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-3xl" />
         </div>
         
-        {/* Medium orbs */}
-        <div className="absolute left-[70%] top-[10%] h-32 w-32 animate-float">
+        {/* Medium orbs - hidden on mobile, smaller on tablet */}
+        <div className="absolute left-[70%] top-[10%] hidden sm:block h-24 w-24 md:h-32 md:w-32 animate-float">
           <div className="h-full w-full rounded-full bg-white/10 blur-2xl" />
         </div>
-        <div className="absolute left-[40%] bottom-[20%] h-40 w-40 animate-float-slow [animation-delay:2s]">
+        <div className="absolute left-[40%] bottom-[20%] hidden sm:block h-24 w-24 md:h-40 md:w-40 animate-float-slow [animation-delay:2s]">
           <div className="h-full w-full rounded-full bg-gradient-to-br from-secondary-300/15 to-transparent blur-2xl" />
         </div>
         
-        {/* Small glowing orbs */}
-        <div className="absolute left-[25%] top-[45%] h-20 w-20 animate-pulse-slow">
+        {/* Small glowing orbs - hidden on mobile */}
+        <div className="absolute left-[25%] top-[45%] hidden md:block h-20 w-20 animate-pulse-slow">
           <div className="h-full w-full rounded-full bg-white/20 blur-xl" />
         </div>
-        <div className="absolute right-[30%] bottom-[35%] h-24 w-24 animate-pulse-slow [animation-delay:1.5s]">
+        <div className="absolute right-[30%] bottom-[35%] hidden md:block h-24 w-24 animate-pulse-slow [animation-delay:1.5s]">
           <div className="h-full w-full rounded-full bg-secondary-400/25 blur-xl" />
         </div>
         
-        {/* Tiny accent orbs */}
-        <div className="absolute left-[60%] top-[35%] h-8 w-8 animate-twinkle">
+        {/* Tiny accent orbs - hidden on mobile */}
+        <div className="absolute left-[60%] top-[35%] hidden lg:block h-8 w-8 animate-twinkle">
           <div className="h-full w-full rounded-full bg-white/30 blur-md" />
         </div>
-        <div className="absolute right-[15%] top-[25%] h-12 w-12 animate-twinkle [animation-delay:1s]">
+        <div className="absolute right-[15%] top-[25%] hidden lg:block h-12 w-12 animate-twinkle [animation-delay:1s]">
           <div className="h-full w-full rounded-full bg-secondary-300/30 blur-lg" />
         </div>
-        <div className="absolute left-[15%] bottom-[15%] h-10 w-10 animate-pulse-slow [animation-delay:0.5s]">
+        <div className="absolute left-[15%] bottom-[15%] hidden lg:block h-10 w-10 animate-pulse-slow [animation-delay:0.5s]">
           <div className="h-full w-full rounded-full bg-primary-400/20 blur-lg" />
         </div>
       </div>
 
-      <div className="container relative flex min-h-screen items-center">
-        <div className="grid w-full items-center pt-20 lg:grid-cols-2 lg:gap-12">
+      <div className="container relative flex min-h-screen items-center px-4 sm:px-6 lg:px-8">
+        <div className="grid w-full items-center gap-8 py-16 sm:py-20 md:py-24 lg:grid-cols-2 lg:gap-12 lg:py-0">
           {/* Content */}
           <div className="z-10 text-white">
-            <h1 className="mb-6 animate-fade-in font-alan-sans text-4xl font-bold leading-tight opacity-0 md:text-5xl lg:text-6xl [animation-fill-mode:forwards]">
-              Protégez votre avenir avec{' '}
+            <h1 className="mb-4 sm:mb-6 animate-fade-in font-alan-sans text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight opacity-0 [animation-fill-mode:forwards]">
+              Protégez-vous et vos revenus avec{' '}
               <span className="text-secondary-400">WimAssur</span>
             </h1>
-            <p className="mb-8 animate-fade-in text-lg text-gray-100 opacity-0 md:text-xl [animation-delay:200ms] [animation-fill-mode:forwards] font-montserrat">
-              La vie est pleine d'incertitudes. Mais avec le bon plan d'assurance, 
-              vous pouvez protéger vos proches et votre avenir financier.
+            <p className="mb-6 sm:mb-8 animate-fade-in text-base sm:text-lg md:text-xl text-gray-100 opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards] font-montserrat">
+              Sécurisez votre patrimoine et garantissez votre stabilité financière. 
+              Découvrez des solutions d'assurance sur mesure pour protéger ce qui compte vraiment.
             </p>
             
             {/* Email capture form */}
-            <form onSubmit={handleSubmit} className="mb-8 animate-fade-in opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
+            <form onSubmit={handleSubmit} className="mb-6 sm:mb-8 animate-fade-in opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
               {showSuccess ? (
-                <div className="flex items-center gap-3 rounded-lg bg-green-500/20 p-4 text-green-100 backdrop-blur-sm">
-                  <svg className="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <div className="flex items-center gap-3 rounded-lg bg-green-500/20 p-3 sm:p-4 text-sm sm:text-base text-green-100 backdrop-blur-sm">
+                  <svg className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   <span>Merci ! Nous vous contacterons très bientôt pour votre devis personnalisé.</span>
@@ -109,33 +127,33 @@ export function Hero() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Votre email professionnel"
-                    className="flex-1 rounded-lg bg-white/10 px-5 py-3 text-white placeholder-white/70 backdrop-blur-sm transition-all focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="flex-1 rounded-lg bg-white/10 px-4 py-3 sm:px-5 text-white placeholder-white/70 backdrop-blur-sm transition-all focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50"
                     required
                   />
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn bg-white px-8 text-primary-700 font-semibold shadow-lg transition-all hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02] focus:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                    className="btn w-full sm:w-auto bg-white px-6 sm:px-8 py-3 text-sm sm:text-base text-primary-700 font-semibold shadow-lg transition-all hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02] focus:ring-white disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap"
                   >
-                    {isSubmitting ? 'Envoi...' : 'Obtenir mon devis gratuit'}
+                    {isSubmitting ? 'Envoi...' : 'Obtenir mon devis'}
                   </button>
                 </div>
               )}
-              <p className="mt-3 text-sm text-gray-200">
+              <p className="mt-3 text-xs sm:text-sm text-gray-200">
                 ✓ Devis gratuit et sans engagement • ✓ Réponse en 24h
               </p>
             </form>
             
             {/* Trust indicators */}
-            <div className="mt-12 flex animate-fade-in items-center gap-8 text-sm text-gray-200 opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards]">
+            <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row animate-fade-in items-start sm:items-center gap-4 sm:gap-8 text-xs sm:text-sm text-gray-200 opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards]">
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>Courtier indépendant</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>+1000 clients satisfaits</span>
@@ -144,38 +162,38 @@ export function Hero() {
           </div>
 
           {/* Image/Illustration */}
-          <div className="relative mt-12 lg:mt-0">
-            <div className="relative z-10">
+          <div className="relative mt-8 sm:mt-12 lg:mt-0 order-first lg:order-last">
+            <div className="relative z-10 mx-auto max-w-sm sm:max-w-md lg:max-w-none">
               {/* Hero image */}
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white/[0.02] shadow-lg backdrop-blur-sm">
+              <div className="aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-white/[0.02] shadow-lg backdrop-blur-sm">
                 <Image
-                  src="/images/home/logo.png"
+                  src="/images/home/logowimassur.png"
                   alt="WimAssur - Votre partenaire d'assurance"
                   width={800}
                   height={600}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-contain p-4 sm:p-6 lg:p-8"
                   priority
                 />
               </div>
               
-              {/* Decorative elements */}
-              <div className="absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-secondary-400/30 blur-xl" />
-              <div className="absolute -left-6 -top-6 h-32 w-32 rounded-full bg-primary-400/30 blur-xl" />
+              {/* Decorative elements - smaller on mobile */}
+              <div className="absolute -bottom-3 -right-3 sm:-bottom-6 sm:-right-6 h-16 w-16 sm:h-24 sm:w-24 rounded-full bg-secondary-400/30 blur-xl" />
+              <div className="absolute -left-3 -top-3 sm:-left-6 sm:-top-6 h-20 w-20 sm:h-32 sm:w-32 rounded-full bg-primary-400/30 blur-xl" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fade-in opacity-0 [animation-delay:1000ms] [animation-fill-mode:forwards]">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 animate-fade-in opacity-0 [animation-delay:1000ms] [animation-fill-mode:forwards]">
         <button
           onClick={() => scrollToSection('life-partner')}
-          className="flex flex-col items-center gap-2 text-white/70 transition-colors hover:text-white"
+          className="flex flex-col items-center gap-1 sm:gap-2 text-white/70 transition-colors hover:text-white"
           aria-label="Défiler vers le bas"
         >
-          <span className="text-xs uppercase tracking-wider">Découvrir</span>
+          <span className="text-[10px] sm:text-xs uppercase tracking-wider">Découvrir</span>
           <svg
-            className="h-6 w-6 animate-bounce-subtle"
+            className="h-5 w-5 sm:h-6 sm:w-6 animate-bounce-subtle"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

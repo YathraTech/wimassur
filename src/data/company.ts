@@ -3,10 +3,10 @@ export const company = {
   tagline: 'Votre partenaire de confiance en assurance',
   description: 'WimAssur est votre courtier en assurance dédié à protéger ce qui compte le plus pour vous.',
   contact: {
-    phone: '+33 1 23 45 67 89',
+    phone: '0611393247',
     email: 'contact@wimassur.fr',
     address: {
-      street: '11 Rue Robert Corvisier',
+      street: '1 Rue Curie',
       city: 'Saint-Mard',
       postalCode: '77230',
       country: 'France',

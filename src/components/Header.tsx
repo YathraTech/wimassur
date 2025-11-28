@@ -55,6 +55,19 @@ export function Header() {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [activeDropdown])
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
   const handleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name)
   }
@@ -162,12 +175,6 @@ export function Header() {
                     }`}
                   >
                     {item.name}
-                    {item.name === 'Blog' && (
-                      <span className="absolute -right-1 -top-1 flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-400 opacity-75"></span>
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-500"></span>
-                      </span>
-                    )}
                   </a>
                 )}
               </li>
@@ -202,95 +209,184 @@ export function Header() {
             </li>
           </ul>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button - Modern hamburger */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+            className={`relative flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300 md:hidden ${
+              isScrolled 
+                ? 'bg-gray-100 hover:bg-gray-200' 
+                : 'bg-white/10 backdrop-blur-sm hover:bg-white/20'
+            }`}
             aria-label="Toggle menu"
           >
-            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            <div className="relative flex h-5 w-5 items-center justify-center">
+              <span
+                className={`absolute block h-0.5 w-5 transform bg-current transition-all duration-300 ${
+                  isScrolled ? 'text-gray-800' : 'text-white'
+                } ${
+                  isMobileMenuOpen ? 'rotate-45' : '-translate-y-1.5'
+                }`}
+              />
+              <span
+                className={`absolute block h-0.5 w-5 transform bg-current transition-all duration-300 ${
+                  isScrolled ? 'text-gray-800' : 'text-white'
+                } ${
+                  isMobileMenuOpen ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`absolute block h-0.5 w-5 transform bg-current transition-all duration-300 ${
+                  isScrolled ? 'text-gray-800' : 'text-white'
+                } ${
+                  isMobileMenuOpen ? '-rotate-45' : 'translate-y-1.5'
+                }`}
+              />
+            </div>
           </button>
         </nav>
 
-        {/* Mobile Navigation */}
-        <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
-          <div className="border-t border-gray-100 bg-white/95 px-4 pb-6 pt-2 shadow-2xl backdrop-blur-md">
-            <ul className="space-y-2">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  {item.dropdown ? (
-                    <div>
-                      <button
-                        onClick={() => handleDropdown(item.name)}
-                        className="flex w-full items-center justify-between rounded-lg px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
-                      >
-                        <span>{item.name}</span>
-                        <svg
-                          className={`h-4 w-4 transition-transform ${
-                            activeDropdown === item.name ? 'rotate-180' : ''
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+        {/* Mobile Navigation - Modern Drawer */}
+        <div 
+          className={`fixed inset-x-0 top-0 z-[100] md:hidden transition-all duration-300 ${
+            isMobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          }`}
+        >
+          <div className="bg-white backdrop-blur-lg shadow-2xl max-h-screen overflow-y-auto">
+            {/* Mobile Header */}
+            <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4">
+              <a
+                href="/"
+                className="font-kanit text-2xl font-bold text-primary-600"
+              >
+                {company.name}
+              </a>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 transition-all duration-300 hover:bg-gray-200"
+                aria-label="Close menu"
+              >
+                <svg className="h-5 w-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Navigation Items */}
+            <nav className="px-4 py-6">
+              <ul className="space-y-1">
+                {navigation.map((item, index) => (
+                  <li 
+                    key={item.name}
+                    className={`${isMobileMenuOpen ? 'animate-slide-in-right opacity-0 [animation-fill-mode:forwards]' : ''}`}
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {item.dropdown ? (
+                      <div>
+                        <button
+                          onClick={() => handleDropdown(item.name)}
+                          className="group flex w-full items-center justify-between rounded-xl px-4 py-3 text-left transition-all duration-200 hover:bg-primary-50 active:scale-[0.98]"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-                      {activeDropdown === item.name && (
-                        <ul className="ml-4 mt-2 space-y-1">
-                          {item.dropdown.map((subItem) => (
-                            <li key={subItem.href}>
-                              <a
-                                href={subItem.href}
-                                className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-50"
-                              >
-                                <span>{subItem.icon}</span>
-                                <span>{subItem.name}</span>
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ) : (
-                    <a
-                      href={item.href}
-                      className="block rounded-lg px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    >
-                      {item.name}
-                    </a>
-                  )}
-                </li>
-              ))}
-              <li>
-                <a href="/contact" className="btn-primary mt-4 w-full block text-center">
-                  Obtenir un devis
+                          <span className="font-medium text-gray-900 group-hover:text-primary-700">
+                            {item.name}
+                          </span>
+                          <svg
+                            className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${
+                              activeDropdown === item.name ? 'rotate-180' : ''
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </button>
+                        {activeDropdown === item.name && (
+                          <ul className="ml-2 mt-2 space-y-1 animate-fade-in">
+                            {item.dropdown.map((subItem) => (
+                              <li key={subItem.href}>
+                                <a
+                                  href={subItem.href}
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                  className="group flex items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200 hover:bg-primary-50 active:scale-[0.98]"
+                                >
+                                  <span className="text-2xl transition-transform group-hover:scale-110">{subItem.icon}</span>
+                                  <span className="font-medium text-gray-700 group-hover:text-primary-700">
+                                    {subItem.name}
+                                  </span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ) : (
+                      <a
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="group flex items-center justify-between rounded-xl px-4 py-3 transition-all duration-200 hover:bg-primary-50 active:scale-[0.98]"
+                      >
+                        <span className="font-medium text-gray-900 group-hover:text-primary-700">
+                          {item.name}
+                        </span>
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA Button */}
+              <div className="mt-6 border-t border-gray-100 pt-6">
+                <a 
+                  href="/contact"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl"
+                >
+                  <span className="relative z-10">Obtenir un devis</span>
+                  <svg
+                    className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary-700 to-primary-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                 </a>
-              </li>
-            </ul>
+              </div>
+
+              {/* Contact Info */}
+              <div className="mt-6 flex items-center justify-center gap-6 border-t border-gray-100 pt-6">
+                <a
+                  href="tel:+33611393247"
+                  className="flex items-center gap-2 text-sm text-gray-600 transition-colors hover:text-primary-600"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="font-medium">06 11 39 32 47</span>
+                </a>
+              </div>
+            </nav>
           </div>
         </div>
+
+        {/* Overlay */}
+        {isMobileMenuOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-fade-in"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </div>
     </header>
   )

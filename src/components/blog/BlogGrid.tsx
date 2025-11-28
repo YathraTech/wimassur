@@ -110,6 +110,22 @@ const categoryColors: { [key: string]: string } = {
   'conseils': 'from-orange-500 to-orange-600'
 }
 
+const categoryIcons: { [key: string]: string } = {
+  'auto': '🚗',
+  'habitation': '🏠',
+  'vie': '💼',
+  'sante': '❤️',
+  'conseils': '💡'
+}
+
+const categoryGradients: { [key: string]: string } = {
+  'auto': 'from-blue-100 to-blue-200',
+  'habitation': 'from-green-100 to-green-200',
+  'vie': 'from-purple-100 to-purple-200',
+  'sante': 'from-red-100 to-red-200',
+  'conseils': 'from-orange-100 to-orange-200'
+}
+
 export function BlogGrid() {
   const [currentPage, setCurrentPage] = useState(1)
   const postsPerPage = 6
@@ -131,10 +147,10 @@ export function BlogGrid() {
               <article className="mb-12 group animate-fade-in opacity-0 [animation-fill-mode:forwards]">
                 <div className="overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
                   <div className="grid md:grid-cols-2">
-                    <div className="aspect-[4/3] bg-gradient-to-br from-primary-100 to-secondary-100 relative overflow-hidden">
-                      {/* Image placeholder */}
+                    <div className={`aspect-[4/3] bg-gradient-to-br ${categoryGradients[blogPosts[0].categorySlug]} relative overflow-hidden`}>
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 to-secondary-600/10"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-6xl">📰</div>
+                        <div className="text-8xl opacity-20">{categoryIcons[blogPosts[0].categorySlug]}</div>
                       </div>
                     </div>
                     <div className="p-8 flex flex-col justify-center">
@@ -175,9 +191,10 @@ export function BlogGrid() {
                 >
                   <div className="h-full overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                     {/* Image */}
-                    <div className="aspect-[16/10] bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                    <div className={`aspect-[16/10] bg-gradient-to-br ${categoryGradients[post.categorySlug]} relative overflow-hidden`}>
+                      <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-black/10"></div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-4xl">📄</div>
+                        <div className="text-6xl opacity-25">{categoryIcons[post.categorySlug]}</div>
                       </div>
                     </div>
 

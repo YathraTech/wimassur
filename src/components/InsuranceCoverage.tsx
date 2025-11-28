@@ -20,41 +20,43 @@ export function InsuranceCoverage() {
   ]
 
   return (
-    <section className="bg-gray-50 py-24">
-      <div className="container">
-        <h2 className="mb-20 text-center text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight font-benzin">
+    <section className="bg-gray-50 py-12 sm:py-16 md:py-20 lg:py-24">
+      <div className="container px-4 sm:px-6 lg:px-8">
+        {/* Section Title - Responsive font sizes and margins */}
+        <h2 className="mb-10 sm:mb-12 md:mb-16 lg:mb-20 text-center text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight font-benzin">
           Nous offrons une <span className="text-primary-700">large gamme de couvertures</span>
         </h2>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        {/* Grid - 1 col mobile, 2 cols tablet, 3 cols desktop */}
+        <div className="grid gap-4 sm:gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {coverages.map((coverage) => (
             <div
               key={coverage.number}
-              className="group relative bg-white border border-gray-200 rounded-lg p-10 h-full flex flex-col transition-all duration-300 hover:bg-primary-700 hover:border-primary-700 cursor-pointer"
+              className="group relative bg-white border border-gray-200 rounded-lg p-6 sm:p-8 md:p-10 h-full flex flex-col transition-all duration-300 hover:bg-primary-700 hover:border-primary-700 cursor-pointer"
             >
-              {/* Numéro */}
-              <div className="mb-8 text-7xl font-extrabold text-gray-100 transition-colors group-hover:text-white/20">
+              {/* Numéro - Responsive font size */}
+              <div className="mb-4 sm:mb-6 md:mb-8 text-5xl sm:text-6xl md:text-7xl font-extrabold text-gray-100 transition-colors group-hover:text-white/20">
                 {coverage.number}
               </div>
 
-              {/* Titre */}
-              <h3 className="mb-6 text-2xl font-bold text-gray-900 transition-colors group-hover:text-white font-montserrat">
+              {/* Titre - Responsive font size and margin */}
+              <h3 className="mb-3 sm:mb-4 md:mb-6 text-xl sm:text-2xl font-bold text-gray-900 transition-colors group-hover:text-white font-montserrat">
                 {coverage.title}
               </h3>
 
-              {/* Description */}
-              <p className="mb-12 text-gray-500 leading-relaxed flex-grow transition-colors group-hover:text-white/90 font-montserrat">
+              {/* Description - Responsive text size and margin */}
+              <p className="mb-6 sm:mb-8 md:mb-12 text-sm sm:text-base text-gray-500 leading-relaxed flex-grow transition-colors group-hover:text-white/90 font-montserrat">
                 {coverage.description}
               </p>
 
-              {/* Lien Learn More */}
+              {/* Lien Learn More - Responsive text and icon size */}
               <a
                 href="#"
-                className="inline-flex items-center gap-3 text-lg font-medium text-gray-900 transition-colors group-hover:text-white"
+                className="inline-flex items-center gap-2 sm:gap-3 text-base sm:text-lg font-medium text-gray-900 transition-colors group-hover:text-white"
               >
                 En savoir plus
                 <svg
-                  className="h-5 w-5"
+                  className="h-4 w-4 sm:h-5 sm:w-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

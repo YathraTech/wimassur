@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { BlogHero } from '@/components/blog/BlogHero'
-import { BlogGrid } from '@/components/blog/BlogGrid'
+import { BlogGridServer } from '@/components/blog/BlogGridServer'
 
 export const metadata: Metadata = {
   title: 'Blog - WimAssur | Actualités et conseils en assurance',
@@ -15,7 +15,7 @@ export default function BlogPage() {
       <Header />
       <main>
         <BlogHero />
-        <BlogGrid />
+        <BlogGridServer />
       </main>
       <Footer />
     </>
