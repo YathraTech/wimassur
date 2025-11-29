@@ -12,9 +12,6 @@ const nextConfig = {
   httpAgentOptions: {
     keepAlive: true,
   },
-  experimental: {
-    optimizeCss: true,
-  },
   async headers() {
     return [
       {
