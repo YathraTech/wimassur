@@ -161,24 +161,73 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Image/Illustration */}
+          {/* Image/Illustration - Modern minimal design */}
           <div className="relative mt-8 sm:mt-12 lg:mt-0 order-first lg:order-last">
             <div className="relative z-10 mx-auto max-w-sm sm:max-w-md lg:max-w-none">
-              {/* Hero image */}
-              <div className="aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-white/[0.02] shadow-lg backdrop-blur-sm">
-                <Image
-                  src="/images/home/logowimassur.png"
-                  alt="WimAssur - Votre partenaire d'assurance"
-                  width={800}
-                  height={600}
-                  className="h-full w-full object-contain p-4 sm:p-6 lg:p-8"
-                  priority
-                />
+              {/* Modern logo container with glassmorphism */}
+              <div className="group relative">
+                {/* Animated gradient background */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/10 via-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                
+                {/* Main logo container */}
+                <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] p-8 sm:p-12 lg:p-16 backdrop-blur-xl shadow-2xl transition-all duration-500 hover:border-white/20 hover:shadow-secondary-400/20">
+                  {/* Subtle pattern overlay */}
+                  <div className="absolute inset-0 opacity-[0.015]" style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 1px)`,
+                    backgroundSize: '40px 40px'
+                  }} />
+                  
+                  {/* Logo with modern effects */}
+                  <div className="relative h-full w-full flex items-center justify-center">
+                    <div className="relative w-full max-w-[280px] transition-transform duration-500 group-hover:scale-105">
+                      <Image
+                        src="/images/home/logowimassur.png"
+                        alt="WimAssur - Votre partenaire d'assurance"
+                        width={600}
+                        height={600}
+                        className="h-auto w-full drop-shadow-2xl filter"
+                        priority
+                      />
+                      
+                      {/* Subtle glow effect on hover */}
+                      <div className="absolute inset-0 -z-10 blur-xl opacity-0 transition-opacity duration-500 group-hover:opacity-30">
+                        <div className="h-full w-full bg-gradient-to-br from-secondary-400 to-primary-400" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Modern geometric decorations */}
+                  <div className="absolute bottom-4 right-4 h-20 w-20 opacity-20">
+                    <div className="h-full w-full rounded-2xl border border-white/30 rotate-45" />
+                  </div>
+                  <div className="absolute top-4 left-4 h-16 w-16 opacity-20">
+                    <div className="h-full w-full rounded-xl border border-white/30 -rotate-12" />
+                  </div>
+                </div>
+                
+                {/* Floating accent elements */}
+                <div className="absolute -inset-4 -z-10">
+                  <div className="absolute bottom-0 right-0 h-40 w-40 rounded-full bg-gradient-to-tr from-secondary-400/20 to-transparent blur-2xl animate-pulse-slow" />
+                  <div className="absolute top-0 left-0 h-32 w-32 rounded-full bg-gradient-to-br from-primary-400/20 to-transparent blur-2xl animate-pulse-slow [animation-delay:1s]" />
+                </div>
+                
+                {/* Interactive particles (hidden on mobile) */}
+                <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none hidden sm:block">
+                  <div className="absolute top-1/4 left-1/4 h-1 w-1 rounded-full bg-white/40 animate-float" />
+                  <div className="absolute top-3/4 right-1/3 h-1.5 w-1.5 rounded-full bg-secondary-400/40 animate-float-delayed" />
+                  <div className="absolute bottom-1/3 left-1/2 h-1 w-1 rounded-full bg-primary-400/40 animate-float-slow" />
+                </div>
               </div>
               
-              {/* Decorative elements - smaller on mobile */}
-              <div className="absolute -bottom-3 -right-3 sm:-bottom-6 sm:-right-6 h-16 w-16 sm:h-24 sm:w-24 rounded-full bg-secondary-400/30 blur-xl" />
-              <div className="absolute -left-3 -top-3 sm:-left-6 sm:-top-6 h-20 w-20 sm:h-32 sm:w-32 rounded-full bg-primary-400/30 blur-xl" />
+              {/* Trust badge */}
+              <div className="mt-6 flex justify-center">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md px-4 py-2 text-xs sm:text-sm text-white/90 border border-white/10">
+                  <svg className="h-4 w-4 text-secondary-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-medium">Certifié ORIAS</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
