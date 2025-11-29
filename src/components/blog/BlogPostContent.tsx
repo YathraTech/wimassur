@@ -275,7 +275,7 @@ function parseMarkdown(content: string): string {
     .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold">$1</strong>')
     // Lists
     .replace(/^\* (.+)$/gim, '<li class="ml-4 list-disc">$1</li>')
-    .replace(/(<li>.*<\/li>)/s, '<ul class="my-4 space-y-2">$1</ul>')
+    .replace(/(<li>[\s\S]*<\/li>)/, '<ul class="my-4 space-y-2">$1</ul>')
     .replace(/^\d+\. (.+)$/gim, '<li class="ml-4 list-decimal">$1</li>')
     // Paragraphs with responsive spacing
     .replace(/\n\n/g, '</p><p class="mb-4 leading-relaxed">')
