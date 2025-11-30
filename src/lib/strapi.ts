@@ -52,7 +52,7 @@ interface StrapiResponse<T> {
   }
 }
 
-const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337'
+const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337'
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN
 
 export async function fetchBlogPosts(
@@ -73,7 +73,7 @@ export async function fetchBlogPosts(
       params.append(`filters[${key}]`, value)
     })
 
-    const response = await fetch(`${STRAPI_URL}/api/blog-posts?${params}`, {
+    const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
       headers: {
         'Authorization': `Bearer ${STRAPI_TOKEN}`,
       },
@@ -131,7 +131,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
       'populate': '*',
     })
 
-    const response = await fetch(`${STRAPI_URL}/api/blog-posts?${params}`, {
+    const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
       headers: {
         'Authorization': `Bearer ${STRAPI_TOKEN}`,
       },
@@ -176,7 +176,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
 export async function fetchBlogCategories() {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/blog-categories`, {
+    const response = await fetch(`${STRAPI_URL}/api/categories`, {
       headers: {
         'Authorization': `Bearer ${STRAPI_TOKEN}`,
       },
