@@ -184,10 +184,13 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
 export async function fetchBlogCategories() {
   try {
+    const headers: HeadersInit = {}
+    if (STRAPI_TOKEN) {
+      headers['Authorization'] = `Bearer ${STRAPI_TOKEN}`
+    }
+
     const response = await fetch(`${STRAPI_URL}/api/categories`, {
-      headers: {
-        'Authorization': `Bearer ${STRAPI_TOKEN}`,
-      },
+      headers,
       next: { revalidate: 300 } // Revalidate every 5 minutes
     })
 
@@ -198,12 +201,18 @@ export async function fetchBlogCategories() {
     const data = await response.json()
     return data.data.map((item: any) => ({
       id: item.id.toString(),
-      name: item.attributes.name,
-      slug: item.attributes.slug,
+      name: item.name,
+      slug: item.slug,
+      description: item.description || '',
     }))
   } catch (error) {
     console.error('Error fetching categories:', error)
-    return []
+    // Return fallback categories
+    return [
+      { id: '1', name: 'Assurance Auto', slug: 'auto', description: '' },
+      { id: '2', name: 'Assurance Habitation', slug: 'habitation', description: '' },
+      { id: '3', name: 'Conseils', slug: 'conseils', description: '' },
+    ]
   }
 }
 

@@ -2,16 +2,35 @@
 
 import { useState } from 'react'
 
-const categories = [
-  { id: 'all', name: 'Tous', count: 24 },
-  { id: 'auto', name: 'Assurance Auto', count: 8 },
-  { id: 'habitation', name: 'Assurance Habitation', count: 6 },
-  { id: 'sante', name: 'Santé', count: 4 },
-  { id: 'vie', name: 'Assurance Vie', count: 3 },
-  { id: 'conseils', name: 'Conseils', count: 3 },
-]
+interface Category {
+  id: string
+  name: string
+  slug: string
+  count?: number
+}
 
-export function BlogHero() {
+interface BlogHeroProps {
+  categories?: Category[]
+}
+
+export function BlogHero({ categories: dynamicCategories }: BlogHeroProps) {
+  // Calculate total count
+  const totalCount = dynamicCategories?.reduce((acc, cat) => acc + (cat.count || 0), 0) || 0
+  
+  // Use dynamic categories if available, otherwise use defaults
+  const categories = dynamicCategories && dynamicCategories.length > 0 
+    ? [
+        { id: 'all', name: 'Tous', slug: 'all', count: totalCount },
+        ...dynamicCategories
+      ]
+    : [
+        { id: 'all', name: 'Tous', slug: 'all', count: 24 },
+        { id: 'auto', name: 'Assurance Auto', slug: 'auto', count: 8 },
+        { id: 'habitation', name: 'Assurance Habitation', slug: 'habitation', count: 6 },
+        { id: 'sante', name: 'Santé', slug: 'sante', count: 4 },
+        { id: 'vie', name: 'Assurance Vie', slug: 'vie', count: 3 },
+        { id: 'conseils', name: 'Conseils', slug: 'conseils', count: 3 },
+      ]
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -65,10 +84,10 @@ export function BlogHero() {
           <div className="animate-fade-in opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards] flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-0">
             {categories.map((category) => (
               <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
+                key={category.slug || category.id}
+                onClick={() => setSelectedCategory(category.slug || category.id)}
                 className={`rounded-full px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 text-xs sm:text-sm md:text-base font-medium transition-all duration-200 font-montserrat ${
-                  selectedCategory === category.id
+                  selectedCategory === (category.slug || category.id)
                     ? 'bg-white text-primary-700 shadow-lg'
                     : 'bg-white/10 text-white backdrop-blur-sm hover:bg-white/20'
                 }`}

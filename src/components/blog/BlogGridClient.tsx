@@ -82,12 +82,20 @@ const mockPosts: BlogPost[] = [
   }
 ]
 
+interface Category {
+  id: string
+  name: string
+  slug: string
+  description?: string
+}
+
 interface BlogGridClientProps {
   initialPosts: BlogPost[]
   pagination?: any
+  categories?: Category[]
 }
 
-export function BlogGridClient({ initialPosts, pagination }: BlogGridClientProps) {
+export function BlogGridClient({ initialPosts, pagination, categories = [] }: BlogGridClientProps) {
   const [currentPage, setCurrentPage] = useState(1)
   
   // Use mock data if no posts from Strapi
