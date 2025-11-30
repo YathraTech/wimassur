@@ -15,7 +15,7 @@ export default async function BlogPage() {
   
   // Calculate article count for each category
   const categoriesWithCount = await Promise.all(
-    categories.map(async (category) => {
+    categories.map(async (category: any) => {
       const { posts } = await fetchBlogPosts(1, 100, { 'category[slug][$eq]': category.slug })
       return {
         ...category,
