@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Strapi Lead</title>
+</head>
+<body>
+    <h1>Test de création de lead Strapi</h1>
+    <p>Remplacez VOTRE_TOKEN_API par votre vrai token</p>
+    
+    <button onclick="testLead()">Tester la création d'un lead</button>
+    
+    <pre id="result"></pre>
+
+    <script>
+        async function testLead() {
+            const result = document.getElementById('result');
+            
+            try {
+                const response = await fetch('https://chic-beauty-production.up.railway.app/api/leads', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer VOTRE_TOKEN_API'
+                    },
+                    body: JSON.stringify({
+                        data: {
+                            email: 'test@example.com',
+                            name: 'Test Direct',
+                            source: 'test-html',
+                            phone: '0123456789',
+                            message: 'Test direct depuis HTML'
+                        }
+                    })
+                });
+
+                const data = await response.json();
+                result.textContent = JSON.stringify({
+                    status: response.status,
+                    ok: response.ok,
+                    data: data
+                }, null, 2);
+            } catch (error) {
+                result.textContent = 'Erreur: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
