@@ -38,10 +38,7 @@ export interface BlogPost {
 }
 
 interface StrapiResponse<T> {
-  data: {
-    id: number
-    attributes: T
-  }[]
+  data: T[]
   meta: {
     pagination: {
       page: number
@@ -73,10 +70,13 @@ export async function fetchBlogPosts(
       params.append(`filters[${key}]`, value)
     })
 
+    const headers: HeadersInit = {}
+    if (STRAPI_TOKEN) {
+      headers['Authorization'] = `Bearer ${STRAPI_TOKEN}`
+    }
+
     const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
-      headers: {
-        'Authorization': `Bearer ${STRAPI_TOKEN}`,
-      },
+      headers,
       next: { revalidate: 60 } // Revalidate every minute
     })
 
@@ -88,20 +88,20 @@ export async function fetchBlogPosts(
 
     const posts: BlogPost[] = data.data.map((item) => ({
       id: item.id.toString(),
-      title: item.attributes.title,
-      slug: item.attributes.slug,
-      excerpt: item.attributes.excerpt,
-      content: item.attributes.content,
-      category: item.attributes.category?.data?.attributes?.name || 'Non catégorisé',
-      categorySlug: item.attributes.category?.data?.attributes?.slug || 'uncategorized',
-      publishedAt: item.attributes.publishedAt,
-      readingTime: item.attributes.readingTime || 5,
-      featured: item.attributes.featured || false,
-      image: item.attributes.featuredImage,
+      title: item.title || 'Sans titre',
+      slug: item.slug || item.documentId,
+      excerpt: item.description || 'Aucune description disponible',
+      content: item.content || item.description || '',
+      category: item.category?.name || 'Non catégorisé',
+      categorySlug: item.category?.slug || 'uncategorized',
+      publishedAt: item.publishedAt || item.createdAt,
+      readingTime: item.readingTime || 5,
+      featured: item.featured || false,
+      image: item.cover,
       author: {
-        name: item.attributes.author?.data?.attributes?.name || 'WimAssur',
-        role: item.attributes.author?.data?.attributes?.role || 'Expert en assurance',
-        avatar: item.attributes.author?.data?.attributes?.avatar,
+        name: item.author?.name || 'WimAssur',
+        role: item.author?.role || 'Expert en assurance',
+        avatar: item.author?.avatar,
       },
     }))
 
@@ -111,6 +111,11 @@ export async function fetchBlogPosts(
     }
   } catch (error) {
     console.error('Error fetching blog posts:', error)
+    // Log more details in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Strapi URL:', STRAPI_URL)
+      console.error('Has Token:', !!STRAPI_TOKEN)
+    }
     // Return mock data as fallback
     return {
       posts: [],
@@ -131,10 +136,13 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
       'populate': '*',
     })
 
+    const headers: HeadersInit = {}
+    if (STRAPI_TOKEN) {
+      headers['Authorization'] = `Bearer ${STRAPI_TOKEN}`
+    }
+
     const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
-      headers: {
-        'Authorization': `Bearer ${STRAPI_TOKEN}`,
-      },
+      headers,
       next: { revalidate: 60 }
     })
 
@@ -152,20 +160,20 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     
     return {
       id: item.id.toString(),
-      title: item.attributes.title,
-      slug: item.attributes.slug,
-      excerpt: item.attributes.excerpt,
-      content: item.attributes.content,
-      category: item.attributes.category?.data?.attributes?.name || 'Non catégorisé',
-      categorySlug: item.attributes.category?.data?.attributes?.slug || 'uncategorized',
-      publishedAt: item.attributes.publishedAt,
-      readingTime: item.attributes.readingTime || 5,
-      featured: item.attributes.featured || false,
-      image: item.attributes.featuredImage,
+      title: item.title || 'Sans titre',
+      slug: item.slug || item.documentId,
+      excerpt: item.description || 'Aucune description disponible',
+      content: item.content || item.description || '',
+      category: item.category?.name || 'Non catégorisé',
+      categorySlug: item.category?.slug || 'uncategorized',
+      publishedAt: item.publishedAt || item.createdAt,
+      readingTime: item.readingTime || 5,
+      featured: item.featured || false,
+      image: item.cover,
       author: {
-        name: item.attributes.author?.data?.attributes?.name || 'WimAssur',
-        role: item.attributes.author?.data?.attributes?.role || 'Expert en assurance',
-        avatar: item.attributes.author?.data?.attributes?.avatar,
+        name: item.author?.name || 'WimAssur',
+        role: item.author?.role || 'Expert en assurance',
+        avatar: item.author?.avatar,
       },
     }
   } catch (error) {
