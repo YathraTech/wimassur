@@ -1,0 +1,13 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm install --force && npm run build"
+
+[deploy]
+startCommand = "npm run start"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+
+[variables]
+NODE_ENV = "production"
+HOST = "0.0.0.0"
+PORT = "1337"
