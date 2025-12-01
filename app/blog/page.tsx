@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const categories = await fetchBlogCategories()
   
-  // Calculate article count for each category
+  // Calculate article count for each category and filter out empty categories
   const categoriesWithCount = await Promise.all(
     categories.map(async (category: any) => {
       const { posts } = await fetchBlogPosts(1, 100, { 'category[slug][$eq]': category.slug })
@@ -24,11 +24,14 @@ export default async function BlogPage() {
     })
   )
   
+  // Filter to only show categories that have at least one article
+  const categoriesWithArticles = categoriesWithCount.filter(category => category.count > 0)
+  
   return (
     <>
       <Header />
       <main>
-        <BlogHero categories={categoriesWithCount} />
+        <BlogHero categories={categoriesWithArticles} />
         <BlogGridServer />
       </main>
       <Footer />
