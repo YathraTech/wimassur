@@ -13,19 +13,30 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const categories = await fetchBlogCategories()
   
-  // Calculate article count for each category and filter out empty categories
-  const categoriesWithCount = await Promise.all(
-    categories.map(async (category: any) => {
-      const { posts } = await fetchBlogPosts(1, 100, { 'category[slug][$eq]': category.slug })
-      return {
-        ...category,
-        count: posts.length
-      }
-    })
-  )
+  // Get all posts to properly count by category
+  const { posts: allPosts } = await fetchBlogPosts(1, 100)
+  
+  // Calculate article count for each category
+  const categoriesWithCount = categories.map((category: any) => {
+    const count = allPosts.filter(post => 
+      post.categorySlug === category.slug || 
+      post.category === category.name
+    ).length
+    
+    return {
+      ...category,
+      count
+    }
+  })
   
   // Filter to only show categories that have at least one article
   const categoriesWithArticles = categoriesWithCount.filter(category => category.count > 0)
+  
+  // Log for debugging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('All categories:', categories.map(c => ({ name: c.name, slug: c.slug })))
+    console.log('Categories with articles:', categoriesWithArticles.map(c => ({ name: c.name, slug: c.slug, count: c.count })))
+  }
   
   return (
     <>

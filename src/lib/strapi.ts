@@ -77,7 +77,7 @@ export async function fetchBlogPosts(
 
     const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
       headers,
-      next: { revalidate: 60 } // Revalidate every minute
+      next: { revalidate: 0 } // No cache, always fetch fresh data
     })
 
     if (!response.ok) {
@@ -143,7 +143,7 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
 
     const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
       headers,
-      next: { revalidate: 60 }
+      next: { revalidate: 0 } // No cache, always fetch fresh data
     })
 
     if (!response.ok) {
@@ -191,7 +191,7 @@ export async function fetchBlogCategories() {
 
     const response = await fetch(`${STRAPI_URL}/api/categories`, {
       headers,
-      next: { revalidate: 300 } // Revalidate every 5 minutes
+      next: { revalidate: 0 } // No cache, always fetch fresh data
     })
 
     if (!response.ok) {
