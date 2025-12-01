@@ -207,7 +207,11 @@ export async function fetchBlogCategories() {
     }))
   } catch (error) {
     console.error('Error fetching categories:', error)
-    // Return fallback categories
+    // In production, return empty array if no categories
+    // In development, return fallback categories for testing
+    if (process.env.NODE_ENV === 'production') {
+      return []
+    }
     return [
       { id: '1', name: 'Assurance Auto', slug: 'auto', description: '' },
       { id: '2', name: 'Assurance Habitation', slug: 'habitation', description: '' },

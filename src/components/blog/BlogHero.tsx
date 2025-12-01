@@ -17,13 +17,15 @@ export function BlogHero({ categories: dynamicCategories }: BlogHeroProps) {
   // Calculate total count
   const totalCount = dynamicCategories?.reduce((acc, cat) => acc + (cat.count || 0), 0) || 0
   
-  // Use dynamic categories if available, otherwise use defaults
+  // Use dynamic categories if available
   const categories = dynamicCategories && dynamicCategories.length > 0 
     ? [
         { id: 'all', name: 'Tous', slug: 'all', count: totalCount },
         ...dynamicCategories
       ]
-    : [
+    : process.env.NODE_ENV === 'production'
+    ? [] // No categories in production if none from Strapi
+    : [ // Default categories only in development
         { id: 'all', name: 'Tous', slug: 'all', count: 24 },
         { id: 'auto', name: 'Assurance Auto', slug: 'auto', count: 8 },
         { id: 'habitation', name: 'Assurance Habitation', slug: 'habitation', count: 6 },
@@ -80,9 +82,10 @@ export function BlogHero({ categories: dynamicCategories }: BlogHeroProps) {
             </div>
           </div>
 
-          {/* Category Pills */}
-          <div className="animate-fade-in opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards] flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-0">
-            {categories.map((category) => (
+          {/* Category Pills - Only show if categories exist */}
+          {categories.length > 0 && (
+            <div className="animate-fade-in opacity-0 [animation-delay:600ms] [animation-fill-mode:forwards] flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 sm:px-0">
+              {categories.map((category) => (
               <button
                 key={category.slug || category.id}
                 onClick={() => setSelectedCategory(category.slug || category.id)}
@@ -95,8 +98,9 @@ export function BlogHero({ categories: dynamicCategories }: BlogHeroProps) {
                 {category.name}
                 <span className="ml-1 sm:ml-2 text-xs sm:text-sm opacity-80">({category.count})</span>
               </button>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
