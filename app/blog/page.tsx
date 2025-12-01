@@ -30,12 +30,12 @@ export default async function BlogPage() {
   })
   
   // Filter to only show categories that have at least one article
-  const categoriesWithArticles = categoriesWithCount.filter(category => category.count > 0)
+  const categoriesWithArticles = categoriesWithCount.filter((category: any) => category.count > 0)
   
   // Log for debugging
   if (process.env.NODE_ENV === 'development') {
-    console.log('All categories:', categories.map(c => ({ name: c.name, slug: c.slug })))
-    console.log('Categories with articles:', categoriesWithArticles.map(c => ({ name: c.name, slug: c.slug, count: c.count })))
+    console.log('All categories:', categories.map((c: any) => ({ name: c.name, slug: c.slug })))
+    console.log('Categories with articles:', categoriesWithArticles.map((c: any) => ({ name: c.name, slug: c.slug, count: c.count })))
   }
   
   return (
