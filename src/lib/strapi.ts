@@ -261,11 +261,26 @@ export async function fetchBlogCategories() {
   }
 }
 
-export function getStrapiImageUrl(image?: StrapiImage, size: 'thumbnail' | 'small' | 'medium' | 'large' = 'medium'): string | null {
-  if (!image?.data?.attributes) return null
+export function getStrapiImageUrl(image?: any, size: 'thumbnail' | 'small' | 'medium' | 'large' = 'medium'): string | null {
+  if (!image) return null
   
-  const formats = image.data.attributes.formats
-  const format = formats[size] || image.data.attributes
+  // Handle Strapi v5 structure - image could be directly in the object
+  if (image.url) {
+    return image.url.startsWith('http') ? image.url : `${STRAPI_URL}${image.url}`
+  }
   
-  return format.url.startsWith('http') ? format.url : `${STRAPI_URL}${format.url}`
+  // Handle Strapi v4 structure with data.attributes
+  if (image.data?.attributes) {
+    const formats = image.data.attributes.formats
+    const format = formats?.[size] || image.data.attributes
+    return format.url.startsWith('http') ? format.url : `${STRAPI_URL}${format.url}`
+  }
+  
+  // Handle direct formats structure
+  if (image.formats) {
+    const format = image.formats[size] || image
+    return format.url?.startsWith('http') ? format.url : `${STRAPI_URL}${format.url}`
+  }
+  
+  return null
 }
