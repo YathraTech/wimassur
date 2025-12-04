@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { company } from '@/data/company'
 import { formatPhoneNumber } from '@/lib/utils'
+import Image from 'next/image'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -60,9 +61,15 @@ export function Footer() {
           {/* Left side - Company info & Newsletter */}
           <div>
             <div className="mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-benzin">
-                <span className="text-primary-400">Wim</span><span className="text-white">Assur</span>
-              </h2>
+              <div className="mb-6">
+                <Image
+                  src="/images/home/logowimassur.png"
+                  alt={company.name}
+                  width={160}
+                  height={50}
+                  className="h-auto w-auto"
+                />
+              </div>
               <p className="text-gray-300 text-base sm:text-lg mb-6 font-montserrat max-w-md">
                 {company.description}
               </p>
