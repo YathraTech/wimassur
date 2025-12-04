@@ -102,16 +102,14 @@ export function ContactInfo() {
         {/* Map Section */}
         <div className="rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden bg-white/10 backdrop-blur-md p-1 sm:p-2">
           <div className="aspect-[16/12] sm:aspect-[16/9] md:aspect-[16/6] rounded-lg sm:rounded-xl md:rounded-2xl bg-gray-200 overflow-hidden">
-            <iframe
-              src="https://maps.google.com/maps?q=1%20Rue%20Curie%2077230%20Saint-Mard%20France&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5235.510825857629!2d2.6817896768310547!3d48.99489997146411!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e615e5c5b5c5b5%3A0xc5b5c5b5c5b5c5b5!2s1%20Rue%20Curie%2C%2077230%20Saint-Mard!5e0!3m2!1sfr!2sfr!4v1733334400000!5m2!1sfr!2sfr"
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
-              className="transition-all duration-300"
-              title="Localisation WimAssur"
             />
           </div>
         </div>
