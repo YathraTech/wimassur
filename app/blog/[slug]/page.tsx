@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   try {
     const { posts } = await fetchBlogPosts(1, 100)
     return posts.map((post) => ({
-      slug: post.slug,
+      slug: post.slug, // This will use documentId if no slug exists
     }))
   } catch (error) {
     console.error('Error generating static params:', error)

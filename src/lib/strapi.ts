@@ -131,7 +131,8 @@ export async function fetchBlogPosts(
 
 export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    const params = new URLSearchParams({
+    // First try to find by slug
+    let params = new URLSearchParams({
       'filters[slug][$eq]': slug,
       'populate': '*',
     })
@@ -153,7 +154,47 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
     const data: StrapiResponse<any> = await response.json()
 
     if (data.data.length === 0) {
-      return null
+      // If not found by slug, try by documentId
+      params = new URLSearchParams({
+        'filters[documentId][$eq]': slug,
+        'populate': '*',
+      })
+      
+      const response2 = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
+        headers,
+        next: { revalidate: 0 }
+      })
+      
+      if (!response2.ok) {
+        throw new Error('Failed to fetch blog post by documentId')
+      }
+      
+      const data2: StrapiResponse<any> = await response2.json()
+      
+      if (data2.data.length === 0) {
+        return null
+      }
+      
+      const item = data2.data[0]
+      
+      return {
+        id: item.id.toString(),
+        title: item.title || 'Sans titre',
+        slug: item.slug || item.documentId,
+        excerpt: item.description || 'Aucune description disponible',
+        content: item.content || item.description || '',
+        category: item.category?.name || 'Non catégorisé',
+        categorySlug: item.category?.slug || 'uncategorized',
+        publishedAt: item.publishedAt || item.createdAt,
+        readingTime: item.readingTime || 5,
+        featured: item.featured || false,
+        image: item.cover,
+        author: {
+          name: item.author?.name || 'WimAssur',
+          role: item.author?.role || 'Expert en assurance',
+          avatar: item.author?.avatar,
+        },
+      }
     }
 
     const item = data.data[0]
