@@ -11,7 +11,12 @@ const categoryColors: { [key: string]: string } = {
   'habitation': 'from-green-500 to-green-600',
   'vie': 'from-purple-500 to-purple-600',
   'sante': 'from-red-500 to-red-600',
-  'conseils': 'from-orange-500 to-orange-600'
+  'conseils': 'from-orange-500 to-orange-600',
+  'animaux': 'from-pink-500 to-pink-600',
+  'professionnel': 'from-indigo-500 to-indigo-600',
+  'voyage': 'from-teal-500 to-teal-600',
+  'retraite': 'from-gray-500 to-gray-600',
+  'default': 'from-amber-500 to-amber-600'
 }
 
 const categoryIcons: { [key: string]: string } = {
@@ -19,7 +24,12 @@ const categoryIcons: { [key: string]: string } = {
   'habitation': '🏠',
   'vie': '💼',
   'sante': '❤️',
-  'conseils': '💡'
+  'conseils': '💡',
+  'animaux': '🐾',
+  'professionnel': '💼',
+  'voyage': '✈️',
+  'retraite': '🏖️',
+  'default': '📋'
 }
 
 const categoryGradients: { [key: string]: string } = {
@@ -27,7 +37,12 @@ const categoryGradients: { [key: string]: string } = {
   'habitation': 'from-green-100 to-green-200',
   'vie': 'from-purple-100 to-purple-200',
   'sante': 'from-red-100 to-red-200',
-  'conseils': 'from-orange-100 to-orange-200'
+  'conseils': 'from-orange-100 to-orange-200',
+  'animaux': 'from-pink-100 to-pink-200',
+  'professionnel': 'from-indigo-100 to-indigo-200',
+  'voyage': 'from-teal-100 to-teal-200',
+  'retraite': 'from-gray-100 to-gray-200',
+  'default': 'from-amber-100 to-amber-200'
 }
 
 // Mock data as fallback
@@ -97,9 +112,15 @@ interface BlogGridClientProps {
 
 export function BlogGridClient({ initialPosts, pagination, categories = [] }: BlogGridClientProps) {
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   
   // Use mock data if no posts from Strapi
-  const posts = initialPosts.length > 0 ? initialPosts : mockPosts
+  const allPosts = initialPosts.length > 0 ? initialPosts : mockPosts
+  
+  // Filter posts by selected category
+  const posts = selectedCategory 
+    ? allPosts.filter(post => post.categorySlug === selectedCategory)
+    : allPosts
   
   const postsPerPage = 6
   const totalPages = Math.ceil(posts.length / postsPerPage)
@@ -126,6 +147,30 @@ export function BlogGridClient({ initialPosts, pagination, categories = [] }: Bl
         <div className="grid gap-8 lg:gap-12 lg:grid-cols-3">
           {/* Main Content */}
           <div className="lg:col-span-2">
+            {/* Active filter indicator */}
+            {selectedCategory && (
+              <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between rounded-lg bg-primary-50 p-4 gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <span className="text-sm text-gray-600">Filtré par :</span>
+                  <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium bg-gradient-to-r ${categoryColors[selectedCategory] || categoryColors['default']} text-white`}>
+                    <span>{categoryIcons[selectedCategory] || categoryIcons['default']}</span>
+                    <span>{categories.find(c => c.slug === selectedCategory)?.name || selectedCategory}</span>
+                  </span>
+                  <span className="text-sm text-gray-600">
+                    ({posts.length} article{posts.length > 1 ? 's' : ''})
+                  </span>
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedCategory(null)
+                    setCurrentPage(1)
+                  }}
+                  className="text-sm text-primary-600 hover:text-primary-700 font-medium whitespace-nowrap"
+                >
+                  Effacer le filtre
+                </button>
+              </div>
+            )}
             {/* Featured Post */}
             {currentPage === 1 && featuredPost && (
               <article className="mb-8 sm:mb-10 lg:mb-12 group animate-fade-in opacity-0 [animation-fill-mode:forwards]">
@@ -208,7 +253,7 @@ export function BlogGridClient({ initialPosts, pagination, categories = [] }: Bl
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                         ) : (
-                          <div className={`h-full w-full bg-gradient-to-br ${categoryGradients[post.categorySlug] || categoryGradients['conseils']} relative`}>
+                          <div className={`h-full w-full bg-gradient-to-br ${categoryGradients[post.categorySlug] || categoryGradients['default']} relative`}>
                             <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-black/10"></div>
                             <div className="absolute inset-0 flex items-center justify-center">
                               <div className="text-5xl sm:text-6xl opacity-25">{categoryIcons[post.categorySlug] || categoryIcons['conseils']}</div>
@@ -413,29 +458,80 @@ export function BlogGridClient({ initialPosts, pagination, categories = [] }: Bl
 
               {/* Categories */}
               <div className="rounded-xl sm:rounded-2xl bg-white p-5 sm:p-6 shadow-lg">
-                <h3 className="mb-4 sm:mb-6 text-lg sm:text-xl font-bold text-gray-900 font-benzin">
-                  Catégories
-                </h3>
-                <div className="space-y-2 sm:space-y-3">
-                  {Object.entries(categoryColors).map(([slug, gradient]) => {
-                    const categoryPosts = posts.filter(post => post.categorySlug === slug)
-                    if (categoryPosts.length === 0) return null
-                    
-                    return (
-                      <Link
-                        key={slug}
-                        href={`/blog/category/${slug}`}
-                        className="flex w-full items-center justify-between rounded-lg bg-gray-50 px-3 sm:px-4 py-2.5 sm:py-3 transition-all hover:bg-gray-100"
-                      >
-                        <span className="text-sm sm:text-base font-medium text-gray-700 font-montserrat capitalize">
-                          {categoryIcons[slug]} {slug === 'conseils' ? 'Conseils' : `Assurance ${slug}`}
-                        </span>
-                        <span className={`inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-gradient-to-r ${gradient} text-[10px] sm:text-xs font-bold text-white`}>
-                          {categoryPosts.length}
-                        </span>
-                      </Link>
-                    )
-                  })}
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 font-benzin">
+                    Catégories
+                  </h3>
+                  {selectedCategory && (
+                    <button
+                      onClick={() => {
+                        setSelectedCategory(null)
+                        setCurrentPage(1)
+                      }}
+                      className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                    >
+                      Tout voir
+                    </button>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {categories.length > 0 ? (
+                    categories.map((category) => {
+                      const gradient = categoryColors[category.slug] || categoryColors['default']
+                      const icon = categoryIcons[category.slug] || categoryIcons['default']
+                      const categoryPosts = allPosts.filter(post => post.categorySlug === category.slug)
+                      
+                      return (
+                        <button
+                          key={category.id}
+                          onClick={() => {
+                            setSelectedCategory(category.slug === selectedCategory ? null : category.slug)
+                            setCurrentPage(1)
+                          }}
+                          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                            selectedCategory === category.slug
+                              ? `bg-gradient-to-r ${gradient} text-white shadow-lg scale-105 -translate-y-0.5 ring-2 ring-offset-2 ring-primary-500`
+                              : `bg-gradient-to-r ${gradient} text-white hover:shadow-lg hover:scale-105 hover:-translate-y-0.5`
+                          }`}
+                        >
+                          <span className="text-base">{icon}</span>
+                          <span>{category.name}</span>
+                          <span className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-xs font-bold">
+                            {categoryPosts.length}
+                          </span>
+                        </button>
+                      )
+                    })
+                  ) : (
+                    // Fallback avec catégories hardcodées si aucune catégorie de Strapi
+                    Object.entries(categoryColors).map(([slug, gradient]) => {
+                      const categoryPosts = allPosts.filter(post => post.categorySlug === slug)
+                      if (categoryPosts.length === 0) return null
+                      
+                      return (
+                        <button
+                          key={slug}
+                          onClick={() => {
+                            setSelectedCategory(slug === selectedCategory ? null : slug)
+                            setCurrentPage(1)
+                          }}
+                          className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                            selectedCategory === slug
+                              ? `bg-gradient-to-r ${gradient} text-white shadow-lg scale-105 -translate-y-0.5 ring-2 ring-offset-2 ring-primary-500`
+                              : `bg-gradient-to-r ${gradient} text-white hover:shadow-lg hover:scale-105 hover:-translate-y-0.5`
+                          }`}
+                        >
+                          <span className="text-base">{categoryIcons[slug]}</span>
+                          <span className="capitalize">
+                            {slug === 'conseils' ? 'Conseils' : `Assurance ${slug}`}
+                          </span>
+                          <span className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-xs font-bold">
+                            {categoryPosts.length}
+                          </span>
+                        </button>
+                      )
+                    })
+                  )}
                 </div>
               </div>
             </div>
