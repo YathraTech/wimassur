@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost', 'api.wimassur.fr'],
+    domains: ['localhost', 'api.wimassur.fr', 'wimassur.up.railway.app'],
     formats: ['image/avif', 'image/webp'],
   },
   poweredByHeader: false,
