@@ -7,15 +7,6 @@ export async function LatestBlog() {
   // Fetch les 4 derniers articles depuis Strapi
   const { posts } = await fetchBlogPosts(1, 4)
   
-  // Debug: Log the first post with image to see structure
-  if (process.env.NODE_ENV === 'development' && posts.length > 0) {
-    const postWithImage = posts.find(p => p.image)
-    if (postWithImage) {
-      console.log('Post with image:', postWithImage.title)
-      console.log('Image structure:', JSON.stringify(postWithImage.image, null, 2))
-    }
-  }
-  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('fr-FR', {
@@ -64,11 +55,6 @@ export async function LatestBlog() {
                       alt={post.title}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        // Hide image on error and show placeholder
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                      }}
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
