@@ -81,7 +81,7 @@ export function ContactJotform() {
               </p>
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <a
-                  href="tel:+33123456789"
+                  href="tel:0611393247"
                   className="flex items-center gap-2 font-medium text-primary-600 hover:text-primary-700"
                 >
                   <svg
@@ -97,7 +97,7 @@ export function ContactJotform() {
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                     />
                   </svg>
-                  +33 1 23 45 67 89
+                  06 11 39 32 47
                 </a>
                 <span className="hidden text-gray-400 sm:inline">•</span>
                 <a
