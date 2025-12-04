@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { company } from '@/data/company'
+import Image from 'next/image'
 
 interface NavigationItem {
   name: string
@@ -85,11 +86,16 @@ export function Header() {
           {/* Logo */}
           <a
             href="/"
-            className={`font-kanit font-bold transition-all duration-300 ${
-              isScrolled ? 'text-2xl text-primary-600' : 'text-3xl text-white drop-shadow-lg'
-            }`}
+            className="relative transition-all duration-300 hover:scale-105"
           >
-            {company.name}
+            <Image
+              src="/images/home/logowimassur.png"
+              alt={company.name}
+              width={isScrolled ? 120 : 140}
+              height={isScrolled ? 40 : 50}
+              className="h-auto w-auto object-contain"
+              priority
+            />
           </a>
 
           {/* Desktop Navigation */}
@@ -256,9 +262,16 @@ export function Header() {
             <div className="flex items-center justify-between border-b border-gray-100 px-4 py-4">
               <a
                 href="/"
-                className="font-kanit text-2xl font-bold text-primary-600"
+                className="relative"
               >
-                {company.name}
+                <Image
+                  src="/images/home/logowimassur.png"
+                  alt={company.name}
+                  width={100}
+                  height={35}
+                  className="h-auto w-auto object-contain"
+                  priority
+                />
               </a>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
