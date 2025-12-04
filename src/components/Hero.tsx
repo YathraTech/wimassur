@@ -102,9 +102,16 @@ export function Hero() {
         <div className="grid w-full items-center gap-8 py-16 sm:py-20 md:py-24 lg:grid-cols-2 lg:gap-12 lg:py-0">
           {/* Content */}
           <div className="z-10 text-white">
-            <h1 className="mb-4 sm:mb-6 animate-fade-in font-alan-sans text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight opacity-0 [animation-fill-mode:forwards]">
-              Protégez-vous et vos revenus avec{' '}
-              <span className="text-secondary-400">WimAssur</span>
+            <h1 className="mb-4 sm:mb-6 animate-fade-in font-alan-sans text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight opacity-0 [animation-fill-mode:forwards] flex flex-wrap items-center gap-x-3">
+              <span>Protégez-vous et vos revenus avec</span>
+              <Image
+                src="/images/home/logowimassur.png"
+                alt="WimAssur"
+                width={200}
+                height={60}
+                className="inline-block h-auto w-auto max-h-[2.5rem] sm:max-h-[3rem] md:max-h-[3.5rem] lg:max-h-[4rem] xl:max-h-[4.5rem] object-contain align-middle"
+                priority
+              />
             </h1>
             <p className="mb-6 sm:mb-8 animate-fade-in text-base sm:text-lg md:text-xl text-gray-100 opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards] font-montserrat">
               Sécurisez votre patrimoine et garantissez votre stabilité financière. 
