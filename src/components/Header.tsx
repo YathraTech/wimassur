@@ -91,8 +91,8 @@ export function Header() {
             <Image
               src="/images/home/logowimassur.png"
               alt={company.name}
-              width={isScrolled ? 120 : 140}
-              height={isScrolled ? 40 : 50}
+              width={isScrolled ? 180 : 220}
+              height={isScrolled ? 60 : 80}
               className="h-auto w-auto object-contain"
               priority
             />
@@ -267,8 +267,8 @@ export function Header() {
                 <Image
                   src="/images/home/logowimassur.png"
                   alt={company.name}
-                  width={100}
-                  height={35}
+                  width={150}
+                  height={50}
                   className="h-auto w-auto object-contain"
                   priority
                 />

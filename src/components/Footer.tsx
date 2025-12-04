@@ -61,14 +61,20 @@ export function Footer() {
           {/* Left side - Company info & Newsletter */}
           <div>
             <div className="mb-8">
-              <div className="mb-6">
+              <div className="mb-6 group relative inline-block">
                 <Image
                   src="/images/home/logowimassur.png"
                   alt={company.name}
-                  width={160}
-                  height={50}
-                  className="h-auto w-auto"
+                  width={240}
+                  height={80}
+                  className="h-auto w-auto relative z-10 transition-all duration-300 group-hover:brightness-110"
                 />
+                {/* Glow effect on hover */}
+                <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 blur-xl">
+                    <div className="h-full w-full bg-gradient-to-r from-primary-400 to-secondary-400 opacity-60" />
+                  </div>
+                </div>
               </div>
               <p className="text-gray-300 text-base sm:text-lg mb-6 font-montserrat max-w-md">
                 {company.description}
